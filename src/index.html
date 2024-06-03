@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <script>
+        const ws = new WebSocket('ws://localhost:3000');
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.clientId) {
+                console.log('Your client ID:', data.clientId);
+                // You can use this client ID to register for events
+            } else {
+                console.log('Received message:', data.message);
+            }
+        };
+
+        ws.onopen = () => {
+            console.log('Connected to the server');
+        };
+
+        ws.onclose = () => {
+            console.log('Disconnected from the server');
+        };
+    </script>
+</body>
+</html>
