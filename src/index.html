@@ -5,7 +5,7 @@
 </head>
 <body>
     <script>
-        const ws = new WebSocket('ws://localhost:3000');
+        const ws = new WebSocket('https://warningfire-notice.onrender.com');
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);

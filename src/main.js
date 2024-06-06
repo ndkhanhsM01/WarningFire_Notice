@@ -22,6 +22,8 @@ app.post('/register', (req, res) => {
     if (wsClient) {
         wsClient.isRegistered = true;
         res.send('Registered for events');
+        
+        console.log("New client was connected" + "(" + clientId + ")");
     } else {
         res.status(404).send('Client not connected');
     }
