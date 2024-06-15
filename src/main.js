@@ -39,9 +39,11 @@ app.post('/notify', (req, res) => {
     clients.forEach(client => {
         if (client.isRegistered) {
             client.ws.send(JSON.stringify({ message }));
+            console.log("send message to: " + client.id);
         }
     });
 
+    console.log("Detect warning fire to clients!");
     res.send('Message sent to registered clients');
 });
 
