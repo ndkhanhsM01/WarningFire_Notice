@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 let clients = [];
+let warningCount = 0;
 
 // Middleware để parse JSON body
 app.use(express.json());
@@ -43,7 +44,8 @@ app.post('/notify', (req, res) => {
         }
     });
 
-    console.log("Detect warning fire to clients!");
+    warningCount++;
+    console.log("Detect warning fire to clients!" + "(" + warningCount +" times)");
     res.send('Message sent to registered clients');
 });
 
