@@ -19,7 +19,6 @@ app.post('/register', (req, res) => {
         return res.status(400).send('Client ID is required');
     }
 
-    insertNewClient(clientId);
     const wsClient = clients.find(client => client.id === clientId);
     if (wsClient) {
         wsClient.isRegistered = true;
@@ -52,20 +51,19 @@ app.post('/notify', (req, res) => {
 
 // Thiết lập WebSocket connection
 wss.on('connection', (ws) => {
+    const clientId = generateUniqueId();
+    clients.push({ id: clientId, ws, isRegistered: false });
+
     ws.on('close', () => {
         clients = clients.filter(client => client.ws !== ws);
     });
 
-    ws.send(JSON.stringify({ message: 'Connected successful!'}));
+    ws.send(JSON.stringify({ message: 'Connected', clientId }));
 });
 
 // Hàm để tạo ID duy nhất
 function generateUniqueId() {
     return Math.random().toString(36).substr(2, 9);
-}
-
-function insertNewClient(clientId){
-    clients.push({ id: clientId, ws, isRegistered: false });
 }
 
 const PORT = process.env.PORT || 3000;
