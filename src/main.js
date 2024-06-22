@@ -26,11 +26,10 @@ app.post('/register', (req, res) => {
     if (wsClient) {
         wsClient.isRegistered = true;
 
-        const rawBody = {
+        res.send({
             type: messageTitle,
             message: 'Registered for events'
-        }
-        res.send(rawBody);
+        });
         
         console.log("New client was connected" + "(" + clientId + ")");
     } else {
@@ -45,13 +44,12 @@ app.post('/notify', (req, res) => {
         return res.status(400).send('Message is required');
     }
 
-    const rawBody = {
-        type: warningTitle,
-        message: 'Detect fire!'
-    }
     clients.forEach(client => {
         if (client.isRegistered) {
-            client.ws.send(JSON.stringify({ rawBody }));
+            client.ws.send(JSON.stringify({
+                type: warningTitle,
+                message: 'Detect fire!'
+            }));
             console.log("send message to: " + client.id);
         }
     });
