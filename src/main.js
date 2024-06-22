@@ -70,7 +70,7 @@ wss.on('connection', (ws) => {
         clients = clients.filter(client => client.ws !== ws);
     });
 
-    ws.send(JSON.stringify({ message: 'Connected', clientId }));
+    ws.send(JSON.stringify({ type: messageTitle, message: 'Connected', clientId }));
 });
 
 // Hàm để tạo ID duy nhất
