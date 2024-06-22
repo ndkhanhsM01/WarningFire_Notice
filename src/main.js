@@ -39,7 +39,7 @@ app.post('/register', (req, res) => {
 
 // API 2: Gửi message tới các user đã đăng ký sự kiện
 app.post('/notify', (req, res) => {
-    const message = req.body.message;
+    const messageReq = req.body.message;
     if (!message) {
         return res.status(400).send('Message is required');
     }
@@ -48,7 +48,7 @@ app.post('/notify', (req, res) => {
         if (client.isRegistered) {
             client.ws.send(JSON.stringify({
                 type: warningTitle,
-                message: 'Detect fire!'
+                message: '<Sensor warning> ' + messageReq
             }));
             console.log("send message to: " + client.id);
         }
