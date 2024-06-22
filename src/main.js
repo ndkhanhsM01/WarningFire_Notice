@@ -40,7 +40,7 @@ app.post('/register', (req, res) => {
 // API 2: Gửi message tới các user đã đăng ký sự kiện
 app.post('/notify', (req, res) => {
     const messageReq = req.body.message;
-    if (!message) {
+    if (!messageReq) {
         return res.status(400).send('Message is required');
     }
 
