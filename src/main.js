@@ -6,6 +6,9 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+const messageTitle = "MESSAGE";
+const warningTitle = "WARNING";
+
 let clients = [];
 let warningCount = 0;
 
@@ -22,7 +25,12 @@ app.post('/register', (req, res) => {
     const wsClient = clients.find(client => client.id === clientId);
     if (wsClient) {
         wsClient.isRegistered = true;
-        res.send('Registered for events');
+
+        const rawBody = {
+            type: messageTitle,
+            message: 'Registered for events'
+        }
+        res.send(rawBody);
         
         console.log("New client was connected" + "(" + clientId + ")");
     } else {
@@ -37,9 +45,13 @@ app.post('/notify', (req, res) => {
         return res.status(400).send('Message is required');
     }
 
+    const rawBody = {
+        type: warningTitle,
+        message: 'Detect fire!'
+    }
     clients.forEach(client => {
         if (client.isRegistered) {
-            client.ws.send(JSON.stringify({ message }));
+            client.ws.send(JSON.stringify({ rawBody }));
             console.log("send message to: " + client.id);
         }
     });
