@@ -63,7 +63,8 @@ wss.on('connection', (ws) => {
 
 // Hàm để tạo ID duy nhất
 function generateUniqueId() {
-    return Math.random().toString(36).substr(2, 9);
+    //return Math.random().toString(36).substr(2, 9);
+    return Date.now();
 }
 
 const PORT = process.env.PORT || 3000;
