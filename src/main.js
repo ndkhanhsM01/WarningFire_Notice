@@ -48,7 +48,7 @@ app.post('/notify', (req, res) => {
         if (client.isRegistered) {
             client.ws.send(JSON.stringify({
                 type: warningTitle,
-                message: '<Sensor warning> ' + messageReq
+                message: messageReq
             }));
             console.log("send message to: " + client.id);
         }
@@ -62,7 +62,7 @@ app.post('/notify', (req, res) => {
 // Thiết lập WebSocket connection
 wss.on('connection', (ws) => {
     const clientId = generateUniqueId();
-    clients.push({ id: clientId, ws, isRegistered: false });
+    clients.push({ id: clientId, ws, isRegistered: false});
 
     ws.on('close', () => {
         clients = clients.filter(client => client.ws !== ws);
